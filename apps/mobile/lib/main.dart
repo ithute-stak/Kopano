@@ -1,3 +1,4 @@
+import 'state_widgets.dart';
 import 'account_welcome_screen.dart';
 import 'sign_in_screen.dart';
 import 'settings_screens.dart';
@@ -241,37 +242,51 @@ class DiscoveryTile extends StatelessWidget {
 
 class MatchesPage extends StatelessWidget {
   const MatchesPage({super.key});
+
   @override
-  Widget build(BuildContext context) => PageContent(child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-    Text('Matches', style: TextStyle(fontSize: 29, fontWeight: FontWeight.w900)),
-    SizedBox(height: 8),
-    Text('Meaningful connections begin with mutual interest.'),
-    SizedBox(height: 30),
-    Center(child: Icon(Icons.favorite_outline, color: KopanoTheme.pink, size: 85)),
-    SizedBox(height: 18),
-    Center(child: Text('Your matches will appear here', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19))),
-    SizedBox(height: 12),
-    Center(child: Text('Dating profiles and matching are not live yet.', textAlign: TextAlign.center)),
-  ]));
+  Widget build(BuildContext context) => PageContent(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: const [
+        Text('Matches', style: TextStyle(fontSize: 29, fontWeight: FontWeight.w900)),
+        SizedBox(height: 8),
+        Text('Meaningful connections begin with mutual interest.'),
+        KopanoStateView(
+          status: KopanoViewStatus.empty,
+          title: 'Your matches will appear here',
+          message: 'No live matches yet. Dating discovery will be connected to your account after safety and eligibility checks.',
+          icon: Icons.favorite_outline,
+        ),
+      ],
+    ),
+  );
 }
 
 class MessagesPage extends StatelessWidget {
   const MessagesPage({super.key});
+
   @override
-  Widget build(BuildContext context) => PageContent(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-    const Text('Messages', style: TextStyle(fontSize: 29, fontWeight: FontWeight.w900)),
-    const SizedBox(height: 8),
-    const Text('Chat securely with your connections.'),
-    const SizedBox(height: 30),
-    const Center(child: Icon(Icons.forum_outlined, color: KopanoTheme.purple, size: 85)),
-    const SizedBox(height: 18),
-    const Center(child: Text('No conversations yet', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19))),
-    const SizedBox(height: 12),
-    const Center(child: Text('Real-time WebSocket messaging will be activated after backend integration.', textAlign: TextAlign.center)),
-    const SizedBox(height: 24),
-    KopanoAction(label: 'Open demo conversation', icon: Icons.chat_bubble_outline,
-      onPressed: () => openPreview(context, const ChatPreviewScreen())),
-  ]));
+  Widget build(BuildContext context) => PageContent(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('Messages', style: TextStyle(fontSize: 29, fontWeight: FontWeight.w900)),
+        const SizedBox(height: 8),
+        const Text('Chat securely with your connections.'),
+        const KopanoStateView(
+          status: KopanoViewStatus.empty,
+          title: 'No conversations yet',
+          message: 'Real-time WebSocket messaging will be available after backend integration.',
+          icon: Icons.forum_outlined,
+        ),
+        KopanoAction(
+          label: 'Open demo conversation',
+          icon: Icons.chat_bubble_outline,
+          onPressed: () => openPreview(context, const ChatPreviewScreen()),
+        ),
+      ],
+    ),
+  );
 }
 
 class ProfilePage extends StatelessWidget {
