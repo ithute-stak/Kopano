@@ -18,10 +18,17 @@ void main() {
     expect(find.text('Your matches will appear here'), findsOneWidget);
   });
 
-  testWidgets('Preview actions clearly communicate demo status', (tester) async {
+  testWidgets('Home opens dedicated dating screen', (tester) async {
     await tester.pumpWidget(const KopanoApp());
     await tester.tap(find.text('Dating'));
-    await tester.pump();
-    expect(find.textContaining('preview'), findsWidgets);
+    await tester.pumpAndSettle();
+    expect(find.text('Discover meaningful connections'), findsOneWidget);
+  });
+
+  testWidgets('Home opens places preview', (tester) async {
+    await tester.pumpWidget(const KopanoApp());
+    await tester.tap(find.text('Places'));
+    await tester.pumpAndSettle();
+    expect(find.text('Explore around Lesotho'), findsOneWidget);
   });
 }
