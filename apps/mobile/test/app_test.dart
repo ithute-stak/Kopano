@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:kopano/main.dart';
 import 'package:kopano/feature_screens.dart';
 import 'package:kopano/premium_screens.dart';
+import 'package:kopano/settings_screens.dart';
 
 void main() {
   testWidgets('Kopano home and navigation render', (tester) async {
@@ -47,5 +48,23 @@ void main() {
     await tester.tap(find.text('View ticket selection'));
     await tester.pumpAndSettle();
     expect(find.byType(TicketPreviewScreen), findsOneWidget);
+  });
+  testWidgets('Privacy controls are explicit demo preferences', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: PrivacySafetyPreview()));
+    expect(find.text('You control your visibility'), findsOneWidget);
+    final toggle = find.byKey(const Key('dating-visibility'));
+    expect(toggle, findsOneWidget);
+    await tester.tap(toggle);
+    await tester.pump();
+    expect(tester.widget<SwitchListTile>(toggle).value, isTrue);
+  });
+
+  testWidgets('Profile navigates to privacy settings', (tester) async {
+    await tester.pumpWidget(const KopanoApp());
+    await tester.tap(find.text('Profile').last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Privacy & Safety'));
+    await tester.pumpAndSettle();
+    expect(find.text('You control your visibility'), findsOneWidget);
   });
 }
