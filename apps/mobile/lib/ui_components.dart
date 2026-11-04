@@ -69,7 +69,16 @@ class KopanoFormValidation {
 
   static String? phone(String? value) {
     final raw = value?.trim() ?? '';
-    if (!RegExp(r'^\\+?[0-9 ()-]{7,20}$').hasMatch(raw)) {
+    if (!RegExp(r'^\+?[0-9 ()-]{7,20}).hasMatch(raw)) {
+      return 'Enter a valid phone number';
+    }
+    return null;
+  }
+
+  static String? password(String? value) =>
+      (value?.length ?? 0) < 8 ? 'Use at least 8 characters' : null;
+}
+).hasMatch(raw)) {
       return 'Enter a valid phone number';
     }
     return null;
