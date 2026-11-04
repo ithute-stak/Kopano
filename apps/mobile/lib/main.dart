@@ -286,12 +286,16 @@ class ProfilePage extends StatelessWidget {
       title: Text(entry.$2),
       trailing: const Icon(Icons.chevron_right),
       onTap: () {
-        switch (entry.$2) {
-          case 'Edit Profile': openPreview(context, const EditProfilePreview());
-          case 'Privacy & Safety': openPreview(context, const PrivacySafetyPreview());
-          case 'Settings': openPreview(context, const AppSettingsPreview());
-          case 'Dating Preferences': openPreview(context, const DatingCardPreview());
-          default: showDemo(context, entry.$2);
+        if (entry.$2 == 'Edit Profile') {
+          openPreview(context, const EditProfilePreview());
+        } else if (entry.$2 == 'Privacy & Safety') {
+          openPreview(context, const PrivacySafetyPreview());
+        } else if (entry.$2 == 'Settings') {
+          openPreview(context, const AppSettingsPreview());
+        } else if (entry.$2 == 'Dating Preferences') {
+          openPreview(context, const DatingCardPreview());
+        } else {
+          showDemo(context, entry.$2);
         }
       },
     ))),
