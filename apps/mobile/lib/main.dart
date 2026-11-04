@@ -174,8 +174,8 @@ class HomePage extends StatelessWidget {
       ],
     ),
     const SectionTitle('Explore Lesotho'),
-    const DiscoveryTile(icon: Icons.landscape, title: 'Weekend in the mountains', subtitle: 'Places • Lesotho', tint: Color(0xFF24775A)),
-    const DiscoveryTile(icon: Icons.local_cafe, title: 'Coffee and conversations', subtitle: 'Date ideas • Maseru', tint: Color(0xFF9F5A2E)),
+    DiscoveryTile(icon: Icons.landscape, title: 'Weekend in the mountains', subtitle: 'Places • Lesotho', tint: const Color(0xFF24775A), onTap: () => openPreview(context, const PlacesScreen())),
+    DiscoveryTile(icon: Icons.local_cafe, title: 'Coffee and conversations', subtitle: 'Date ideas • Maseru', tint: const Color(0xFF9F5A2E), onTap: () => openPreview(context, const PlacesScreen())),
   ]));
 }
 
@@ -205,8 +205,15 @@ class _DiscoverPageState extends State<DiscoverPage> {
       child: ChoiceChip(label: Text(labels[i]), selected: filter == i, onSelected: (_) => setState(() => filter = i)),
     )))),
     const SectionTitle('Recommended for you'),
-    ...examples[filter].map((item) => DiscoveryTile(icon: [Icons.favorite, Icons.people, Icons.place, Icons.event][filter],
-      title: item.$1, subtitle: item.$2, tint: [KopanoTheme.pink, KopanoTheme.purple, Colors.green, Colors.deepOrange][filter])),
+    ...examples[filter].map((item) => DiscoveryTile(
+      icon: [Icons.favorite, Icons.people, Icons.place, Icons.event][filter],
+      title: item.$1,
+      subtitle: item.$2,
+      tint: [KopanoTheme.pink, KopanoTheme.purple, Colors.green, Colors.deepOrange][filter],
+      onTap: () => openPreview(context, [
+        const DatingScreen(), const FriendsScreen(), const PlacesScreen(), const EventsScreen(),
+      ][filter]),
+    )),
     const SizedBox(height: 12),
     const Text('Preview content. No real member profiles, venue availability or events are displayed.', style: TextStyle(color: Colors.grey, fontSize: 12)),
   ]));
@@ -216,7 +223,8 @@ class DiscoveryTile extends StatelessWidget {
   final IconData icon;
   final String title, subtitle;
   final Color tint;
-  const DiscoveryTile({super.key, required this.icon, required this.title, required this.subtitle, required this.tint});
+  final VoidCallback? onTap;
+  const DiscoveryTile({super.key, required this.icon, required this.title, required this.subtitle, required this.tint, this.onTap});
   @override
   Widget build(BuildContext context) => Card(child: ListTile(
     contentPadding: const EdgeInsets.all(12),
@@ -225,7 +233,7 @@ class DiscoveryTile extends StatelessWidget {
     title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
     subtitle: Text(subtitle),
     trailing: const Icon(Icons.chevron_right),
-    onTap: () => openPreview(context, title.contains('Coffee') || title.contains('mountains') ? const PlacesScreen() : const EventsScreen()),
+    onTap: onTap ?? () => showDemo(context, title),
   ));
 }
 
