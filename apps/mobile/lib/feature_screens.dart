@@ -39,6 +39,7 @@ class OnboardingScreen extends StatefulWidget {
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
+
 class _OnboardingScreenState extends State<OnboardingScreen> {
   int step = 0;
   static const messages = [
@@ -46,36 +47,64 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     ('Make friends', 'Discover shared interests and new communities.', Icons.people),
     ('Explore together', 'Find places, activities and events worth experiencing.', Icons.explore),
   ];
+
   @override
   Widget build(BuildContext context) {
     final current = messages[step];
-    return Scaffold(body: SafeArea(child: Padding(
-      padding: const EdgeInsets.all(24),
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        const BrandMark(), const Spacer(),
-        Container(width: 170, height: 170,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(44),
-            gradient: const LinearGradient(colors: [KopanoTheme.purple, KopanoTheme.pink])),
-          child: Icon(current.$3, color: Colors.white, size: 90)),
-        const SizedBox(height: 38),
-        Text(current.$1, style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900)),
-        const SizedBox(height: 14),
-        Text(current.$2, textAlign: TextAlign.center, style: const TextStyle(fontSize: 17)),
-        const SizedBox(height: 20),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: List.generate(messages.length,
-          (i) => Container(width: step == i ? 24 : 8, height: 8,
-            margin: const EdgeInsets.all(4),
-            decoration: BoxDecoration(color: step == i ? KopanoTheme.purple : Colors.black12,
-              borderRadius: BorderRadius.circular(10))))),
-        const Spacer(),
-        KopanoAction(label: step == 2 ? 'Get started' : 'Continue', onPressed: () {
-          if (step < 2) { setState(() => step++); }
-          else { openPreview(context, const RegistrationScreen()); }
-        }),
-        TextButton(onPressed: () => openPreview(context, const RegistrationScreen()),
-          child: const Text('Create account (demo)')),
-      ]),
-    )));
+    return Scaffold(
+      appBar: AppBar(title: const Text('Welcome to Kopano')),
+      body: SafeArea(child: LayoutBuilder(
+        builder: (context, constraints) => SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Center(child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 460),
+            child: Column(children: [
+              const SizedBox(height: 15),
+              const BrandMark(),
+              const SizedBox(height: 35),
+              Semantics(
+                label: 'Onboarding illustration',
+                child: Container(
+                  width: 150, height: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(36),
+                    gradient: const LinearGradient(
+                      colors: [KopanoTheme.purple, KopanoTheme.pink])),
+                  child: Icon(current.$3, color: Colors.white, size: 80))),
+              const SizedBox(height: 30),
+              Text(current.$1, textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 29, fontWeight: FontWeight.w900)),
+              const SizedBox(height: 14),
+              Text(current.$2, textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 17)),
+              const SizedBox(height: 20),
+              Semantics(
+                label: 'Onboarding step ${step + 1} of ${messages.length}',
+                child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(messages.length, (i) => Container(
+                    width: step == i ? 24 : 8, height: 8,
+                    margin: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: step == i ? KopanoTheme.purple : Colors.black12,
+                      borderRadius: BorderRadius.circular(10))))),
+              ),
+              const SizedBox(height: 35),
+              KopanoAction(label: step == 2 ? 'Get started' : 'Continue',
+                onPressed: () {
+                  if (step < 2) {
+                    setState(() => step++);
+                  } else {
+                    openPreview(context, const RegistrationScreen());
+                  }
+                }),
+              TextButton(
+                onPressed: () => openPreview(context, const RegistrationScreen()),
+                child: const Text('Create account (demo)')),
+            ]),
+          )),
+        ),
+      )),
+    );
   }
 }
 
