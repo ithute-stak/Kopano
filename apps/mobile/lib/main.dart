@@ -1,3 +1,4 @@
+import 'feature_screens.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const KopanoApp());
@@ -164,10 +165,10 @@ class HomePage extends StatelessWidget {
       shrinkWrap: true, physics: const NeverScrollableScrollPhysics(), crossAxisSpacing: 10, mainAxisSpacing: 10,
       childAspectRatio: 1.10,
       children: [
-        FeatureCard(icon: Icons.favorite, title: 'Dating', subtitle: 'Find a partner', color: KopanoTheme.pink, onTap: () => showDemo(context, 'Dating discovery')),
-        FeatureCard(icon: Icons.people_alt, title: 'Friends', subtitle: 'Make new friends', color: KopanoTheme.purple, onTap: () => showDemo(context, 'Friend discovery')),
-        FeatureCard(icon: Icons.place, title: 'Places', subtitle: 'Find great spots', color: Colors.green.shade700, onTap: () => showDemo(context, 'Places')),
-        FeatureCard(icon: Icons.event, title: 'Events', subtitle: 'What is happening?', color: Colors.deepOrange, onTap: () => showDemo(context, 'Events')),
+        FeatureCard(icon: Icons.favorite, title: 'Dating', subtitle: 'Find a partner', color: KopanoTheme.pink, onTap: () => openPreview(context, const DatingScreen())),
+        FeatureCard(icon: Icons.people_alt, title: 'Friends', subtitle: 'Make new friends', color: KopanoTheme.purple, onTap: () => openPreview(context, const FriendsScreen())),
+        FeatureCard(icon: Icons.place, title: 'Places', subtitle: 'Find great spots', color: Colors.green.shade700, onTap: () => openPreview(context, const PlacesScreen())),
+        FeatureCard(icon: Icons.event, title: 'Events', subtitle: 'What is happening?', color: Colors.deepOrange, onTap: () => openPreview(context, const EventsScreen())),
       ],
     ),
     const SectionTitle('Explore Lesotho'),
@@ -222,7 +223,7 @@ class DiscoveryTile extends StatelessWidget {
     title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
     subtitle: Text(subtitle),
     trailing: const Icon(Icons.chevron_right),
-    onTap: () => showDemo(context, title),
+    onTap: () => openPreview(context, title.contains('Coffee') || title.contains('mountains') ? const PlacesScreen() : const EventsScreen()),
   ));
 }
 
