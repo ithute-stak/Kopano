@@ -1,3 +1,4 @@
+import 'settings_screens.dart';
 import 'premium_screens.dart';
 import 'feature_screens.dart';
 import 'package:flutter/material.dart';
@@ -284,7 +285,15 @@ class ProfilePage extends StatelessWidget {
       leading: Icon(entry.$1, color: KopanoTheme.purple),
       title: Text(entry.$2),
       trailing: const Icon(Icons.chevron_right),
-      onTap: () => entry.$2 == 'Edit Profile' ? openPreview(context, const EditProfilePreview()) : showDemo(context, entry.$2),
+      onTap: () {
+        switch (entry.$2) {
+          case 'Edit Profile': openPreview(context, const EditProfilePreview());
+          case 'Privacy & Safety': openPreview(context, const PrivacySafetyPreview());
+          case 'Settings': openPreview(context, const AppSettingsPreview());
+          case 'Dating Preferences': openPreview(context, const DatingCardPreview());
+          default: showDemo(context, entry.$2);
+        }
+      },
     ))),
     const SizedBox(height: 15),
     const Center(child: Text('Kopano • Meet • Connect • Explore', style: TextStyle(color: Colors.grey))),
