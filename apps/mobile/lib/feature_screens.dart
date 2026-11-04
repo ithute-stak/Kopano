@@ -1,3 +1,4 @@
+import 'ui_components.dart';
 import 'premium_screens.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
@@ -107,21 +108,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     Form(key: formKey, child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       const Center(child: BrandMark()),
       const SizedBox(height: 24),
-      TextFormField(controller: name, textInputAction: TextInputAction.next,
-        decoration: const InputDecoration(labelText: 'Full name', prefixIcon: Icon(Icons.person_outline)),
-        validator: (v) => (v?.trim().length ?? 0) < 2 ? 'Enter your name' : null),
+      KopanoTextInput(controller: name, label: 'Full name', icon: Icons.person_outline,
+        textInputAction: TextInputAction.next, validator: KopanoFormValidation.requiredName),
       const SizedBox(height: 14),
-      TextFormField(controller: phone, keyboardType: TextInputType.phone,
-        decoration: const InputDecoration(labelText: 'Phone number', prefixIcon: Icon(Icons.phone_outlined)),
-        validator: (v) => (v?.trim().length ?? 0) < 7 ? 'Enter a valid phone number' : null),
+      KopanoTextInput(controller: phone, label: 'Phone number', icon: Icons.phone_outlined,
+        keyboardType: TextInputType.phone, validator: KopanoFormValidation.phone),
       const SizedBox(height: 14),
       OutlinedButton.icon(onPressed: chooseBirthDate, icon: const Icon(Icons.cake_outlined),
         label: Text(birthDate == null ? 'Select date of birth (18+)' :
           '${birthDate!.day}/${birthDate!.month}/${birthDate!.year}')),
       const SizedBox(height: 14),
-      TextFormField(controller: password, obscureText: true,
-        decoration: const InputDecoration(labelText: 'Password', prefixIcon: Icon(Icons.lock_outline)),
-        validator: (v) => (v?.length ?? 0) < 8 ? 'Use at least 8 characters' : null),
+      KopanoTextInput(controller: password, label: 'Password', icon: Icons.lock_outline,
+        obscureText: true, validator: KopanoFormValidation.password),
       CheckboxListTile(value: consent, onChanged: (v) => setState(() => consent = v ?? false),
         controlAffinity: ListTileControlAffinity.leading,
         title: const Text('I agree to the Terms and Privacy Policy', style: TextStyle(fontSize: 14))),
