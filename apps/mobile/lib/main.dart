@@ -204,7 +204,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
     )))),
     const SectionTitle('Recommended for you'),
     ...examples[filter].map((item) => DiscoveryTile(icon: [Icons.favorite, Icons.people, Icons.place, Icons.event][filter],
-      title: item[0], subtitle: item[1], tint: [KopanoTheme.pink, KopanoTheme.purple, Colors.green, Colors.deepOrange][filter])),
+      title: item.$1, subtitle: item.$2, tint: [KopanoTheme.pink, KopanoTheme.purple, Colors.green, Colors.deepOrange][filter])),
     const SizedBox(height: 12),
     const Text('Preview content. No real member profiles, venue availability or events are displayed.', style: TextStyle(color: Colors.grey, fontSize: 12)),
   ]));
