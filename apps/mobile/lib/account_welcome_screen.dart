@@ -20,7 +20,7 @@ class AccountWelcomeScreen extends StatelessWidget {
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     maxWidth: 480,
-                    minHeight: (constraints.maxHeight - 52).clamp(0.0, double.infinity),
+                    minHeight: constraints.maxHeight > 52 ? constraints.maxHeight - 52 : 0,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
