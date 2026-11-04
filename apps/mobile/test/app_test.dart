@@ -7,6 +7,7 @@ import 'package:kopano/settings_screens.dart';
 import 'package:kopano/sign_in_screen.dart';
 import 'package:kopano/auth_contract.dart';
 import 'package:kopano/ui_components.dart';
+import 'package:kopano/account_welcome_screen.dart';
 
 void main() {
   testWidgets('Kopano home and navigation render', (tester) async {
@@ -92,4 +93,23 @@ void main() {
     expect(KopanoFormValidation.phone('+266 5000 0000'), isNull);
     expect(KopanoFormValidation.phone('abc'), isNotNull);
   });
+  testWidgets('Account hub routes to sign in and onboarding', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: AccountWelcomeScreen()));
+    expect(find.text('For adults aged 18+. Preview only — account creation and login are disabled.'), findsOneWidget);
+    await tester.tap(find.text('Sign in'));
+    await tester.pumpAndSettle();
+    expect(find.byType(SignInScreen), findsOneWidget);
+  });
+
+  testWidgets('Onboarding progresses without losing its state', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: OnboardingScreen()));
+    expect(find.text('Meet people'), findsOneWidget);
+    await tester.tap(find.text('Continue'));
+    await tester.pumpAndSettle();
+    expect(find.text('Make friends'), findsOneWidget);
+    await tester.tap(find.text('Continue'));
+    await tester.pumpAndSettle();
+    expect(find.text('Explore together'), findsOneWidget);
+  });
+
 }
