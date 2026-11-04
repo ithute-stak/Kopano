@@ -1,0 +1,23 @@
+name: Flutter UI
+on:
+  push:
+    paths: ['apps/mobile/**', '.github/workflows/flutter-ui.yml']
+  pull_request:
+    paths: ['apps/mobile/**', '.github/workflows/flutter-ui.yml']
+jobs:
+  analyze-test-web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter create . --platforms=web,android,ios --project-name kopano
+      - run: rm -f test/widget_test.dart
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+      - run: flutter build web --release
