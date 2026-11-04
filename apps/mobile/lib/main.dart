@@ -1,3 +1,4 @@
+import 'premium_screens.dart';
 import 'feature_screens.dart';
 import 'package:flutter/material.dart';
 
@@ -256,6 +257,9 @@ class MessagesPage extends StatelessWidget {
     Center(child: Text('No conversations yet', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19))),
     SizedBox(height: 12),
     Center(child: Text('Real-time WebSocket messaging will be activated after backend integration.', textAlign: TextAlign.center)),
+    const SizedBox(height: 24),
+    KopanoAction(label: 'Open demo conversation', icon: Icons.chat_bubble_outline,
+      onPressed: () => openPreview(context, const ChatPreviewScreen())),
   ]));
 }
 
@@ -280,7 +284,7 @@ class ProfilePage extends StatelessWidget {
       leading: Icon(entry.$1, color: KopanoTheme.purple),
       title: Text(entry.$2),
       trailing: const Icon(Icons.chevron_right),
-      onTap: () => showDemo(context, entry.$2),
+      onTap: () => entry.$2 == 'Edit Profile' ? openPreview(context, const EditProfilePreview()) : showDemo(context, entry.$2),
     ))),
     const SizedBox(height: 15),
     const Center(child: Text('Kopano • Meet • Connect • Explore', style: TextStyle(color: Colors.grey))),
