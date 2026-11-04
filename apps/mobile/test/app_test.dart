@@ -8,6 +8,7 @@ import 'package:kopano/sign_in_screen.dart';
 import 'package:kopano/auth_contract.dart';
 import 'package:kopano/ui_components.dart';
 import 'package:kopano/account_welcome_screen.dart';
+import 'package:kopano/state_widgets.dart';
 
 void main() {
   testWidgets('Kopano home and navigation render', (tester) async {
@@ -110,6 +111,39 @@ void main() {
     await tester.tap(find.text('Continue'));
     await tester.pumpAndSettle();
     expect(find.text('Explore together'), findsOneWidget);
+  });
+
+  testWidgets('Reusable empty state renders message', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: Scaffold(
+      body: KopanoStateView(
+        status: KopanoViewStatus.empty,
+        title: 'Nothing found',
+        message: 'Try changing filters',
+      ),
+    )));
+    expect(find.text('Nothing found'), findsOneWidget);
+    expect(find.text('Try changing filters'), findsOneWidget);
+  });
+
+  testWidgets('Error state exposes retry action', (tester) async {
+    var retryCount = 0;
+    await tester.pumpWidget(MaterialApp(home: Scaffold(
+      body: KopanoStateView(
+        status: KopanoViewStatus.error,
+        title: 'Unable to load',
+        message: 'Connection unavailable',
+        actionLabel: 'Retry',
+        onAction: () => retryCount++,
+      ),
+    )));
+    await tester.tap(find.text('Retry'));
+    expect(retryCount, 1);
+  });
+
+  test('Disabled discovery provider never returns live data', () async {
+    const gateway = DisabledDiscoveryGateway();
+    expect(await gateway.loadMatches(), isEmpty);
+    expect(await gateway.loadConversations(), isEmpty);
   });
 
 }
