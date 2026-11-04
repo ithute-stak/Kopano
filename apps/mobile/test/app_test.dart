@@ -4,6 +4,9 @@ import 'package:kopano/main.dart';
 import 'package:kopano/feature_screens.dart';
 import 'package:kopano/premium_screens.dart';
 import 'package:kopano/settings_screens.dart';
+import 'package:kopano/sign_in_screen.dart';
+import 'package:kopano/auth_contract.dart';
+import 'package:kopano/ui_components.dart';
 
 void main() {
   testWidgets('Kopano home and navigation render', (tester) async {
@@ -66,5 +69,27 @@ void main() {
     await tester.tap(find.text('Privacy & Safety'));
     await tester.pumpAndSettle();
     expect(find.text('You control your visibility'), findsOneWidget);
+  });
+  testWidgets('Sign in validates locally and remains in demo mode', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: SignInScreen()));
+    expect(find.text('Welcome back'), findsOneWidget);
+    await tester.tap(find.text('Sign in (preview)'));
+    await tester.pump();
+    expect(find.text('Enter a valid phone number'), findsOneWidget);
+    expect(find.text('Use at least 8 characters'), findsOneWidget);
+  });
+
+  test('Disabled auth adapter never authenticates', () async {
+    const gateway = DisabledAuthGateway();
+    expect(await gateway.restoreSession(), isNull);
+    await expectLater(
+      gateway.signIn(phone: '+26650000000', password: 'not-a-real-password'),
+      throwsA(isA<AuthUnavailableException>()),
+    );
+  });
+
+  test('Phone validator accepts Lesotho international format', () {
+    expect(KopanoFormValidation.phone('+266 5000 0000'), isNull);
+    expect(KopanoFormValidation.phone('abc'), isNotNull);
   });
 }
