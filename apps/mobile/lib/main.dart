@@ -247,8 +247,8 @@ class MatchesPage extends StatelessWidget {
 class MessagesPage extends StatelessWidget {
   const MessagesPage({super.key});
   @override
-  Widget build(BuildContext context) => PageContent(child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-    Text('Messages', style: TextStyle(fontSize: 29, fontWeight: FontWeight.w900)),
+  Widget build(BuildContext context) => PageContent(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    const Text('Messages', style: TextStyle(fontSize: 29, fontWeight: FontWeight.w900)),
     SizedBox(height: 8),
     Text('Chat securely with your connections.'),
     SizedBox(height: 30),
