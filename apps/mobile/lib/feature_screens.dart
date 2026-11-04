@@ -1,3 +1,4 @@
+import 'premium_screens.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 
@@ -170,7 +171,7 @@ class _DatingScreenState extends State<DatingScreen> {
       ])),
     const SizedBox(height: 18),
     KopanoAction(label: 'Dating preferences (preview)', icon: Icons.tune,
-      onPressed: () => showDemo(context, 'Dating preferences')),
+      onPressed: () => openPreview(context, const DatingCardPreview())),
   ]));
 }
 
@@ -218,6 +219,9 @@ class _PlacesScreenState extends State<PlacesScreen> {
       if (filter == 'All' || filter == 'Hotels')
         DiscoveryTile(icon: Icons.hotel, title: 'Weekend stays', subtitle: 'Lesotho • Category preview',
           tint: KopanoTheme.purple),
+      KopanoAction(label: 'Explore sample place detail', icon: Icons.place_outlined,
+        onPressed: () => openPreview(context, const PlaceDetailPreview())),
+      const SizedBox(height: 12),
       const Text('Venue listings, prices and availability require verified business data.',
         style: TextStyle(color: Colors.grey, fontSize: 12)),
     ]));
@@ -236,8 +240,8 @@ class EventsScreen extends StatelessWidget {
       const DiscoveryTile(icon: Icons.people, title: 'Community activities',
         subtitle: 'Event category • Lesotho', tint: Colors.orange),
       const SizedBox(height: 12),
-      KopanoAction(label: 'Explore ticketing preview', icon: Icons.confirmation_number_outlined,
-        onPressed: () => openPreview(context, const TicketPreviewScreen())),
+      KopanoAction(label: 'Explore example event details', icon: Icons.celebration,
+        onPressed: () => openPreview(context, const EventDetailPreview())),
     ]));
 }
 
