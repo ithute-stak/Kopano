@@ -1,3 +1,4 @@
+import 'account_welcome_screen.dart';
 import 'sign_in_screen.dart';
 import 'settings_screens.dart';
 import 'premium_screens.dart';
@@ -284,8 +285,8 @@ class ProfilePage extends StatelessWidget {
     const Center(child: Text('Welcome to Kopano', style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold))),
     const Center(child: Text('Demo mode • Not signed in')),
     const SizedBox(height: 16),
-    KopanoAction(label: 'Sign in or create an account', icon: Icons.login,
-      onPressed: () => openPreview(context, const SignInScreen())),
+    KopanoAction(label: 'Join Kopano or sign in', icon: Icons.login,
+      onPressed: () => openPreview(context, const AccountWelcomeScreen())),
     const SizedBox(height: 22),
     ...[
       (Icons.edit_outlined, 'Edit Profile'),
